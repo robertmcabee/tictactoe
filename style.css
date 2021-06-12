@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+body {
+    background-color: rgb(221, 221, 221);
+    font-family: 'Montserrat', sans-serif;
+    color: darkolivegreen;
+}
+
+.statuscontainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h2 {
+    text-align: center;
+    background-color: white;
+    padding: 20px 35px;
+    margin: 25px;
+    border-radius: 10px;
+    color: darkolivegreen;
+}
+
+button {
+    border: none;
+    padding: 20px 35px;
+    margin: 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    background-color: darkolivegreen;
+    border-radius: 10px;
+}
+
+.buttoncontainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.gridcontainer {
+    padding: 50px;
+
+}
+
+.grid {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 150px 150px 150px;
+    grid-template-rows: 150px 150px 150px;
+    grid-gap: 10px;
+    background-color: rgb(196, 195, 195);
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 470px;
+    border-radius: 10px;
+}
+
+.box {
+    background-color: white;
+    border-radius: 10px;
+    font-size: 140px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.box:hover {
+    transform: scale(1.05);
+    background-color: rgb(241, 241, 241);
+    transition: 100ms ease-out;
+    font-size: 147px;
+    color: rgb(69, 87, 38);
+}
+
+
+@media (max-width: 700px) {
+    .grid {
+        padding: 8px;
+        grid-template-columns: 120px 120px 120px;
+        grid-template-rows: 120px 120px 120px;
+        grid-gap: 8px;
+        max-width: 376px;
+        border-radius: 8px;
+    }
+
+    .box {
+        font-size: 120px;
+        border-radius: 8px;
+    }
+
+    .box:hover {
+        font-size: 124px;
+    }
+}
+
+
+@media (max-width: 500px) {
+    .grid {
+        padding: 7px;
+        grid-template-columns: 100px 100px 100px;
+        grid-template-rows: 100px 100px 100px;
+        grid-gap: 7px;
+        max-width: 314px;
+        border-radius: 7px;
+    }
+
+    .box {
+        font-size: 100px;
+        border-radius: 7px;
+    }
+
+    .box:hover {
+        font-size: 102px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .gridcontainer {
+        padding: 10px;
+
+    }
+}
