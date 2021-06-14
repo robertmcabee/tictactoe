@@ -102,7 +102,7 @@ function evalBoardState() {
             line.forEach(box =>{box.status === "blank" ? box.weight += (10 + Math.random()): box.weight = 0})
     
         } else if (numOfXes >= 1 && numOfOs >= 1) {
-            null
+            line.forEach(box =>{box.status === "blank" ? box.weight += 0.01 : box.weight = 0})
     
         } else if (numOfXes === 1) {
             line.forEach(box =>{box.status === "blank" ? box.weight += (100 + Math.random()) : box.weight = 0})
@@ -134,12 +134,13 @@ function cpuChoice() {
                 bestChoice = box
             }
         })
-        prevFirstChoice = bestChoice
         //if nothing has been assigned weight, game ends
         if (bestChoice.weight === 0) {
             tieState()
-            //or cpu goes
-        } else {
+        } else if (bestChoice.weight < 1){
+            turnO(bestChoice)
+            tieState()
+        } else { 
             turnO(bestChoice)
             evalBoardState()
         }
@@ -179,4 +180,20 @@ boxes.forEach((box, index) => {
         }
     })
 })
+
+//right click to cheat!!
+boxes.forEach((box, index) => {
+    box.id.addEventListener('contextmenu', (e) => {
+        if (gameOver === false && box.status === "blank") {
+            turnX(box)
+            evalBoardState()
+        }
+    })
+})
+
+// USE FOR TEST
+
+// line1.forEach(box =>{
+//     box.id.style.backgroundColor = 'black'
+// })
 
