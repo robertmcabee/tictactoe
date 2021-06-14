@@ -8,8 +8,7 @@ const box7 = {weight:0, status:"blank", id:document.getElementById('box7'), name
 const box8 = {weight:0, status:"blank", id:document.getElementById('box8'), name:'box8'}
 const box9 = {weight:0, status:"blank", id:document.getElementById('box9'), name:'box9'}
 
-const boxes = [box1, box2, box3, box4, box5, box6, box7, box8, box9, ]
-
+const boxes = [box1, box2, box3, box4, box5, box6, box7, box8, box9]
 
 const line1 = [box1, box2, box3] //top horizontal row
 const line2 = [box4, box5, box6] //middle horizontal row
@@ -28,6 +27,8 @@ var gameOver = false
 
 var playerGoesFirst = true
 
+var alternateStart = false
+
 const button = document.getElementById('button')
 
 
@@ -42,13 +43,20 @@ button.addEventListener('click', (e) => {
     gameOver = false
     //if the player went first, now the cpu goes
     if (playerGoesFirst === true) {
+        text.innerText = "AI goes first"
         playerGoesFirst = false
+        //if the CPU chose the middle box last time, its weight is lowered
+        if (alternateStart === true){
+            box5.weight -= 1000
+            alternateStart = false
+        } else {
+            alternateStart = true
+        }
         evalBoardState()
         cpuChoice()
-        text.innerText = "AI goes first"
     } else {
-        playerGoesFirst = true
         text.innerText = "You go first"
+        playerGoesFirst = true
     }
 })
 
@@ -126,6 +134,7 @@ function cpuChoice() {
                 bestChoice = box
             }
         })
+        prevFirstChoice = bestChoice
         //if nothing has been assigned weight, game ends
         if (bestChoice.weight === 0) {
             tieState()
@@ -170,20 +179,4 @@ boxes.forEach((box, index) => {
         }
     })
 })
-
-//right click to cheat!!
-boxes.forEach((box, index) => {
-    box.id.addEventListener('contextmenu', (e) => {
-        if (gameOver === false && box.status === "blank") {
-            turnX(box)
-            evalBoardState()
-        }
-    })
-})
-
-// USE FOR TEST
-
-// line1.forEach(box =>{
-//     box.id.style.backgroundColor = 'black'
-// })
 
