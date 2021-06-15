@@ -163,8 +163,6 @@ function turnO(box) {
 }
 
 
-
-
 boxes.forEach((box, index) => {
     box.id.addEventListener('click', (e) => {
         //only allow if game is still going & selected box is empty
@@ -181,19 +179,4 @@ boxes.forEach((box, index) => {
     })
 })
 
-//right click to cheat!!
-boxes.forEach((box, index) => {
-    box.id.addEventListener('contextmenu', (e) => {
-        if (gameOver === false && box.status === "blank") {
-            turnX(box)
-            evalBoardState()
-        }
-    })
-})
-
-// USE FOR TEST
-
-// line1.forEach(box =>{
-//     box.id.style.backgroundColor = 'black'
-// })
 
