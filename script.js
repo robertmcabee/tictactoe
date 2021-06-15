@@ -7,9 +7,7 @@ const box6 = {weight:0, status:"blank", id:document.getElementById('box6'), name
 const box7 = {weight:0, status:"blank", id:document.getElementById('box7'), name:'box7'}
 const box8 = {weight:0, status:"blank", id:document.getElementById('box8'), name:'box8'}
 const box9 = {weight:0, status:"blank", id:document.getElementById('box9'), name:'box9'}
-
 const boxes = [box1, box2, box3, box4, box5, box6, box7, box8, box9]
-
 const line1 = [box1, box2, box3] //top horizontal row
 const line2 = [box4, box5, box6] //middle horizontal row
 const line3 = [box7, box8, box9] //bottom horizontal row
@@ -22,6 +20,7 @@ const line8 = [box3, box5, box7] //ascending line
 const allLines = [line1, line2, line3, line4, line5, line6, line7, line8]
 
 const text = document.getElementById('statustext')
+const button = document.getElementById('button')
 
 var gameOver = false
 
@@ -29,12 +28,11 @@ var playerGoesFirst = true
 
 var alternateStart = false
 
-const button = document.getElementById('button')
 
 
 //New Game Button
 button.addEventListener('click', (e) => {
-    boxes.forEach(box =>{
+    boxes.forEach(box => {
         box.id.innerHTML = ''
         box.status = "blank"
         box.weight = 0
@@ -45,14 +43,14 @@ button.addEventListener('click', (e) => {
     if (playerGoesFirst === true) {
         text.innerText = "AI goes first"
         playerGoesFirst = false
+        evalBoardState()
         //if the CPU chose the middle box last time, its weight is lowered
-        if (alternateStart === true){
+        if (alternateStart === true) {
             box5.weight -= 1000
             alternateStart = false
         } else {
             alternateStart = true
         }
-        evalBoardState()
         cpuChoice()
     } else {
         text.innerText = "You go first"
@@ -78,46 +76,62 @@ function tieState() {
 }
 
 function evalBoardState() {
-    //
+    //reset weight
+    boxes.forEach(box => {
+        box.weight = 0
+    })
     allLines.forEach(line => {
+        //count x's & o's in each box of that line
         let numOfXes = 0
         let numOfOs = 0
-        //count x's & o's in each box of that line
-        line.forEach(box =>{
-            if(box.status === "x"){
+        line.forEach(box => {
+            if (box.status === "x") {
                 numOfXes++
-            } if (box.status === "o"){
+            }
+            if (box.status === "o") {
                 numOfOs++
             }
         })
         //check for three in a rox
-        if (numOfXes === 3){
+        if (numOfXes === 3) {
             winState()
-    
-        } else if (numOfOs === 3){
+
+        } else if (numOfOs === 3) {
             loseState()
-    
-        //add weight to empty boxes in line
+
+            //add weight to empty boxes in line
         } else if (numOfXes === 0 && numOfOs === 0) {
-            line.forEach(box =>{box.status === "blank" ? box.weight += (10 + Math.random()): box.weight = 0})
-    
+            line.forEach(box => {
+                box.status === "blank" ? box.weight += (10 + Math.random()) : box.weight = 0
+            })
+            //0 will be used to indicate no possible moves, so tiny number is added
         } else if (numOfXes >= 1 && numOfOs >= 1) {
-            line.forEach(box =>{box.status === "blank" ? box.weight += 0.01 : box.weight = 0})
-    
+            line.forEach(box => {
+                box.status === "blank" ? box.weight += 0.01 : box.weight = 0
+            })
+
         } else if (numOfXes === 1) {
-            line.forEach(box =>{box.status === "blank" ? box.weight += (100 + Math.random()) : box.weight = 0})
-    
+            line.forEach(box => {
+                box.status === "blank" ? box.weight += (100 + Math.random()) : box.weight = 0
+            })
+
         } else if (numOfXes === 2) {
-            line.forEach(box =>{box.status === "blank" ? box.weight += (1000 + Math.random()) : box.weight = 0})
-    
+            line.forEach(box => {
+                box.status === "blank" ? box.weight += (1000 + Math.random()) : box.weight = 0
+            })
+
         } else if (numOfOs === 1) {
-            line.forEach(box =>{box.status === "blank" ? box.weight += (100 + Math.random()) : box.weight = 0})
-    
+            line.forEach(box => {
+                box.status === "blank" ? box.weight += (100 + Math.random()) : box.weight = 0
+            })
+
         } else if (numOfOs === 2) {
-            line.forEach(box =>{box.status === "blank" ? box.weight += 10000 : box.weight = 0})
-        } 
+            line.forEach(box => {
+                box.status === "blank" ? box.weight += 10000 : box.weight = 0
+            })
+        }
     })
-    
+
     // display weight & status to console
     console.log("~-~-~-~-~-~-~-~-~-~-~-~-~-~-~")
     boxes.forEach(box => {
@@ -137,10 +151,11 @@ function cpuChoice() {
         //if nothing has been assigned weight, game ends
         if (bestChoice.weight === 0) {
             tieState()
-        } else if (bestChoice.weight < 1){
+        // runs if only option is a move that ties the game
+        } else if (bestChoice.weight < 1) {
             turnO(bestChoice)
-            tieState()
-        } else { 
+            tieState() 
+        } else {
             turnO(bestChoice)
             evalBoardState()
         }
@@ -156,10 +171,7 @@ function turnX(box) {
 function turnO(box) {
     box.id.innerHTML = 'O'
     box.status = "o"
-    //reset weight
-    boxes.forEach(box => {
-        box.weight = 0
-    })
+    box.weight = 0
 }
 
 
@@ -178,5 +190,3 @@ boxes.forEach((box, index) => {
         }
     })
 })
-
-
